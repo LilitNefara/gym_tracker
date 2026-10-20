@@ -47,7 +47,12 @@ workout_groups = {
     2: {"name": "chest", "exercise": {1: "жим", 2: "рек флай", 3: "блок"}}
     }
 
-def opener_exercise_in_group(group):
+def new_add_workout():
+    for index, item in enumerate(workout_groups.values(), start=1):
+            print(f"{index} - {item['name']}")
+    
+    group = int(input("\nChoice group: ")); print("\n")
+    
     for index, item in workout_groups[group]["exercise"].items():
         print(f"{index} - {item}")
 
@@ -90,13 +95,7 @@ def opener_exercise_in_group(group):
             None # Edit
 
 
-def add_workout():
-    for index, item in enumerate(workout_groups.values(), start=1):
-        print(f"{index} - {item['name']}")
-
-    group_choice = int(input("\nChoice group: ")); print("\n")
-    opener_exercise_in_group(group_choice)
-
+# def add_workout():
     # workout = {}
     # wo_sets_list = []
     # for i in sets.split():
@@ -178,7 +177,7 @@ def add_workout():
 while(True):
     command = input("\n1 - add\n2 - show\n3 - max weight\n4 - last workouts\nq - exit\n\nEnter a number: ")
     if command == "q": break
-    if command == "1": add_workout()
+    if command == "1": new_add_workout()
     if command == "2": print("\n"); show_workouts()
     if command == "3":
         max_weight = get_max_weight(input("\nExercise: "))
