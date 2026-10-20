@@ -43,7 +43,7 @@ workouts = [
 ]
 
 workout_groups = {
-    1: {"name" : "biceps", "exercise": {1: "гантели", 2: "туриник", 3: "кривой", 4: "блок"}},
+    1: {"name" : "biceps", "exercise": {1: "гантели", 2: "турник", 3: "кривой", 4: "блок"}},
     2: {"name": "chest", "exercise": {1: "жим", 2: "рек флай", 3: "блок"}}
     }
 
@@ -63,17 +63,31 @@ def opener_exercise_in_group(group):
     else:
         current_exercise = workout_groups[group]["exercise"][exercise_choice]
         current_weight = int(input("Enter the weight: "))
-        current_reps = int(input("Enter repetions: "))
         
-        # workout = {}
-        # sets = []
-        set = {}; set["weight"] = current_weight; set["reps"] = current_reps
+        sets = []
+        set = {}; set["weight"] = current_weight; set["reps"] = int(input("Enter repetions: "))
+        sets.append(set)
+        
+        edit = int(input("\nIf everything is correct, implement the following approach\nIf you need to change something, enter - 0\n"))
+        if edit == 0:
+            None # Добавить едит
+        else: # Если вес тот же, добавление следующего повторения
+            set = {}; set["weight"] = current_weight; set["reps"] = edit
+            sets.append(set)
 
-        input()
+            edit = int(input("\nIf everything is correct, implement the following approach\nIf you need to change something, enter - 0\n"))
+            if edit == 0:
+                None
+            else:
+                set = {}; set["weight"] = current_weight; set["reps"] = edit
+                sets.append(set)
 
-        print(set)
+        print(f"{current_exercise} | {sets[0]['weight']}x{sets[0]['reps']} {sets[1]['weight']}x{sets[1]['reps']} {sets[2]['weight']}x{sets[2]['reps']}")
 
-
+        if input("If everything is correct, enter 'y'\nIf you need to make changes, enter 'n'\n") == "y":
+            None # Save
+        else: 
+            None # Edit
 
 
 def add_workout():
