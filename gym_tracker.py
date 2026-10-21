@@ -47,12 +47,14 @@ workout_groups = {
     2: {"name": "chest", "exercise": {1: "жим", 2: "рек флай", 3: "блок"}}
     }
 
-def new_add_workout():
+def add_workout():
+    # Просмотр групп мышц
     for index, item in enumerate(workout_groups.values(), start=1):
             print(f"{index} - {item['name']}")
     
     group = int(input("\nChoice group: ")); print("\n")
     
+    # Просмотр упражнений (внутри групп мышц)
     for index, item in workout_groups[group]["exercise"].items():
         print(f"{index} - {item}")
 
@@ -60,6 +62,7 @@ def new_add_workout():
     exercise_choice = int(input("Enter a exercise: "))
     
     if exercise_choice == 0:
+        # Добавление упражнений
         new_exercise = str(input("Enter a new exercise: ")).lower()
     
         if str(input(f"Are you sure to add - {new_exercise}\ny/n\n")) == "y":
@@ -67,117 +70,62 @@ def new_add_workout():
         else: print(new_exercise, "- not added.")
     else:
         current_exercise = workout_groups[group]["exercise"][exercise_choice]
-        current_weight = int(input("Enter the weight: "))
         
+        # 1 set
+        current_weight = int(input("Enter the weight: "))
         sets = []
         set = {}; set["weight"] = current_weight; set["reps"] = int(input("Enter repetions: "))
         sets.append(set)
+        set_counter = 0
         
-        edit = int(input("\nIf everything is correct, implement the following approach\nIf you need to change something, enter - 0\n"))
+        # 2 set
+        print(f"{current_exercise} | {set_counter + 1}: {sets[set_counter]['weight']}x{sets[set_counter]['reps']}")
+        edit = int(input("\nIf you want change weight, enter - 0\n"))
+            
         if edit == 0:
-            None # Добавить едит
-        else: # Если вес тот же, добавление следующего повторения
-            set = {}; set["weight"] = current_weight; set["reps"] = edit
-            sets.append(set)
-
-            edit = int(input("\nIf everything is correct, implement the following approach\nIf you need to change something, enter - 0\n"))
-            if edit == 0:
-                None
-            else:
-                set = {}; set["weight"] = current_weight; set["reps"] = edit
-                sets.append(set)
+            current_weight = int(input("Enter the new weight: "))
+            edit = int(input("Enter repetions: "))
+            
+        set = {}; set["weight"] = current_weight; set["reps"] = edit
+        sets.append(set)
+        set_counter += 1
+        
+        # 3 set
+        print(f"{current_exercise} | {set_counter + 1}: {sets[set_counter]['weight']}x{sets[set_counter]['reps']}")
+        edit = int(input("\nIf you want change weight, enter - 0\n"))
+            
+        if edit == 0:
+            current_weight = int(input("Enter the new weight: "))
+            edit = int(input("Enter repetions: "))
+            
+        set = {}; set["weight"] = current_weight; set["reps"] = edit
+        sets.append(set)
 
         print(f"{current_exercise} | {sets[0]['weight']}x{sets[0]['reps']} {sets[1]['weight']}x{sets[1]['reps']} {sets[2]['weight']}x{sets[2]['reps']}")
 
-        if input("If everything is correct, enter 'y'\nIf you need to make changes, enter 'n'\n") == "y":
-            None # Save
+        # Проверка данных перед сохранением
+        if input("Save = 'y'\nCancel 'n'\n") == "y":
+            workout = {}
+            workout["group"] = workout_groups[group]["name"]
+            workout["exercise"] = current_exercise
+            workout["date"] = str(date.today())
+            workout["sets"] = sets
+
+            workouts.append(workout)
+            print("\nWorkout is recorded")
         else: 
-            None # Edit
+            print("\nWorkout is not recorded")
 
-
-# def add_workout():
-    # workout = {}
-    # wo_sets_list = []
-    # for i in sets.split():
-    #     wo_set = {}
-    #     weight, reps = i.split('x')
-    #     wo_set["weight"] = int(weight)
-    #     wo_set["reps"] = int(reps)
-    #     wo_sets_list.append(wo_set)
-    # workout["sets"] = wo_sets_list
-    # workout["exercise"] = exercise
-    # workout["date"] = str(date.today())
-
-    # progress = get_progress(workout)
-
-    # if progress is None: print("\nThe training session was added for the first time")
-    # elif progress > 0: print(f"\nProgress: +{progress} kg")
-    # elif progress < 0: print(f"\nProgress: {progress} kg")
-    # else: print("\nThere is no progress")
-
-    # workouts.append(workout)
-
-    # with open("data_workouts.json", "w") as file:
-    #     json.dump(workouts, file, indent=4)
-
-
-# def get_progress(workout):
-#     last_workouts = []
-#     max_weight_in_last = None
-#     max_weight_in_current = None
-
-#     for i in workouts:
-#         if i["exercise"] == workout["exercise"]:
-#             last_workouts.append(i)
-
-#     if last_workouts:
-#         last = last_workouts[-1]
-#         for i in last["sets"]:
-#             if max_weight_in_last is None or i["weight"] > max_weight_in_last:
-#                 max_weight_in_last = i["weight"]
-    
-#         for i in workout["sets"]:
-#             if max_weight_in_current is None or i["weight"] > max_weight_in_current:
-#                 max_weight_in_current = i["weight"]
-#         return max_weight_in_current - max_weight_in_last
-
-# def show_workouts():
-#     if workouts:
-#         for i in workouts:
-#             print(f"{i['exercise']} - {i['date']} : ", end='')
-#             sets_str = " , ".join(f"{s['weight']} kg - {s['reps']}" for s in i['sets'])
-#             print(sets_str)
-#     else: print("No workouts")
-
-# def get_max_weight(user_input):
-#     max_weight = None
-
-#     for i in workouts:
-#         if i["exercise"] == user_input:
-#             for s in i["sets"]:
-#                 if max_weight is None or s["weight"] > max_weight:
-#                     max_weight = s["weight"]
-#     return max_weight
-
-# def get_last_workouts(user_exc):
-#     last_workouts = []
-
-#     for i in workouts:
-#         if i["exercise"] == user_exc:
-#             last_workouts.append(i)
-
-#     if last_workouts:
-#         print("\n")
-#         for i in last_workouts[-3:]:
-#             print(f"{i['exercise']} - {i['date']} : ", end='')
-#             sets_str = " , ".join(f"{s['weight']} kg - {s['reps']}" for s in i['sets'])
-#             print(sets_str)
-#     else: print("\nExercise not found")
+def show_workouts():
+    if workouts:
+        for i in workouts:
+            print(i)
+    else: print("No workouts")
 
 while(True):
     command = input("\n1 - add\n2 - show\n3 - max weight\n4 - last workouts\nq - exit\n\nEnter a number: ")
     if command == "q": break
-    if command == "1": new_add_workout()
+    if command == "1": add_workout()
     if command == "2": print("\n"); show_workouts()
     if command == "3":
         max_weight = get_max_weight(input("\nExercise: "))
@@ -187,4 +135,4 @@ while(True):
         else:
             print("\nMax weight:", max_weight, 'kg')
 
-    if command == "4": get_last_workouts(input("\nExercise: ")) 
+    if command == "4": get_last_workouts(input("\nExercise: "))
