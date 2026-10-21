@@ -39,6 +39,25 @@ workouts = [
                 "reps": 7
             }
         ]
+    },
+    {
+        "group": "biceps",
+        "exercise": "гантели",
+        "date": "2026-09-26",
+        "sets": [
+            {
+                "weight": 12,
+                "reps": 7
+            },
+            {
+                "weight": 12,
+                "reps": 6
+            },
+            {
+                "weight": 12,
+                "reps": 5
+            }
+        ]
     }
 ]
 
@@ -50,26 +69,27 @@ workout_groups = {
 def add_workout():
     # Просмотр групп мышц
     for index, item in enumerate(workout_groups.values(), start=1):
-            print(f"{index} - {item['name']}")
+            print(f"{index} - {item['name']}")    
     
-    group = int(input("\nChoice group: ")); print("\n")
+    group_choice = int(input("\nChoice group: ")); print("\n")
     
     # Просмотр упражнений (внутри групп мышц)
-    for index, item in workout_groups[group]["exercise"].items():
+    for index, item in workout_groups[group_choice]["exercise"].items():
         print(f"{index} - {item}")
-
+    
     print("\n(If your exercise is not on the list, write 0 and add it)\n")
     exercise_choice = int(input("Enter a exercise: "))
     
+    # Добавление упражнений
     if exercise_choice == 0:
-        # Добавление упражнений
         new_exercise = str(input("Enter a new exercise: ")).lower()
     
         if str(input(f"Are you sure to add - {new_exercise}\ny/n\n")) == "y":
-            workout_groups[group]["exercise"][len(workout_groups[group]["exercise"]) + 1] = new_exercise
+            workout_groups[group_choice]["exercise"][len(workout_groups[group_choice]["exercise"]) + 1] = new_exercise
         else: print(new_exercise, "- not added.")
     else:
-        current_exercise = workout_groups[group]["exercise"][exercise_choice]
+        # Запись сетов
+        current_exercise = workout_groups[group_choice]["exercise"][exercise_choice]
         
         # 1 set
         current_weight = int(input("Enter the weight: "))
@@ -118,15 +138,33 @@ def add_workout():
 
 def show_workouts():
     if workouts:
-        for i in workouts:
-            print(i)
+        # Просмотр групп мышц
+        for index, item in enumerate(workout_groups.values(), start=1):
+            print(f"{index} - {item['name']}")
+        
+        group_choice = int(input("\nChoice group: ")); print("\n")
+        
+        # Просмотр упражнений (внутри групп мышц)
+        for index, item in workout_groups[group_choice]["exercise"].items():
+            print(f"{index} - {item}")
+        
+        exercise_choice = int(input("Enter a exercise: "))
+
+        for item in workout_groups[group_choice]['exercise']:
+            print(item)
+
     else: print("No workouts")
 
+def test():
+    for item in workout_groups[1].values():
+        print(item[1])
+
 while(True):
-    command = input("\n1 - add\n2 - show\n3 - max weight\n4 - last workouts\nq - exit\n\nEnter a number: ")
+    command = input("\n1 - add\n2 - show\n3 - max weight\n4 - last workouts\n5 - test\nq - exit\n\nEnter a number: ")
     if command == "q": break
     if command == "1": add_workout()
-    if command == "2": print("\n"); show_workouts()
+    if command == "2": show_workouts()
+    if command == "5": test()
     if command == "3":
         max_weight = get_max_weight(input("\nExercise: "))
 
