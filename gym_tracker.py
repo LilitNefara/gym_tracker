@@ -58,7 +58,26 @@ workouts = [
                 "reps": 5
             }
         ]
-    }
+    },
+    {
+            "group": "chest",
+            "exercise": "жим",
+            "date": "2026-09-26",
+            "sets": [
+                {
+                    "weight": 25,
+                    "reps": 10
+                },
+                {
+                    "weight": 25,
+                    "reps": 6
+                },
+                {
+                    "weight": 25,
+                    "reps": 4
+                }
+            ]
+        }
 ]
 
 workout_groups = {
@@ -150,14 +169,16 @@ def show_workouts():
         
         exercise_choice = int(input("Enter a exercise: "))
 
-        for item in workout_groups[group_choice]['exercise']:
-            print(item)
+        for item in workouts:
+            if item["exercise"] == workout_groups[group_choice]["exercise"][exercise_choice]:
+                print(item)
+
+        # workout_groups[group_choice]["exercise"][exercise_choice]
 
     else: print("No workouts")
 
 def test():
-    for item in workout_groups[1].values():
-        print(item[1])
+    print(workout_groups[1]["exercise"][1])
 
 while(True):
     command = input("\n1 - add\n2 - show\n3 - max weight\n4 - last workouts\n5 - test\nq - exit\n\nEnter a number: ")
