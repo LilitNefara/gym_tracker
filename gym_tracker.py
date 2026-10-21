@@ -171,14 +171,17 @@ def show_workouts():
 
         for item in workouts:
             if item["exercise"] == workout_groups[group_choice]["exercise"][exercise_choice]:
-                print(item)
-
-        # workout_groups[group_choice]["exercise"][exercise_choice]
-
+                print(f"{item['exercise']}: ",
+                      f"{item['sets'][0]['weight']}x{item['sets'][0]['reps']}",
+                      f"{item['sets'][1]['weight']}x{item['sets'][1]['reps']}",
+                      f"{item['sets'][2]['weight']}x{item['sets'][2]['reps']}",
+                      f" | {item['date']}")
     else: print("No workouts")
 
 def test():
-    print(workout_groups[1]["exercise"][1])
+    for item in workouts:
+        print(f"{item['exercise']}: {item['sets'][0]['weight']}x{item['sets'][0]['reps']} {item['sets'][1]['weight']}x{item['sets'][1]['reps']} {item['sets'][2]['weight']}x{item['sets'][2]['reps']} | {item['date']}")
+
 
 while(True):
     command = input("\n1 - add\n2 - show\n3 - max weight\n4 - last workouts\n5 - test\nq - exit\n\nEnter a number: ")
